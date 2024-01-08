@@ -1,4 +1,4 @@
-printl("[LinGe] HUD 正在载入");
+printl("[LinGe] HUD 正在載入");
 ::LinGe.HUD <- {};
 ::LinGe.HUD.Config <- {
 	HUDShow = {
@@ -6,22 +6,22 @@ printl("[LinGe] HUD 正在载入");
 		time = true,
 		players = true,
 		hostname = false,
-		versusNoHUDRank = true, // 对抗模式是否永远不显示击杀排行
-		CompatVSLibHud = true // 是否兼容 VSLib.HUD
+		versusNoHUDRank = true, // 對抗模式是否永遠不顯示擊殺排行
+		CompatVSLibHud = true // 是否相容 VSLib.HUD
 	},
 	playersStyle = {
-		// 关键词：{特殊(ob,idle,vac,max),队伍(sur,spe),真人或BOT(human,bot),生存或死亡(alive,dead),运算(+,-)} 如果不包含某个关键词则不对其限定
-		// ob,idle,vac,max 为特殊关键词，当包含该类关键词时其它所有关键词无效
-		// 除队伍可同时包含 sur 与 spe 外，其它类型的关键词若同时出现则只有最后一个有效
-		// 可以使用击杀、伤害数据关键字，会显示为所有玩家的总和
-		coop = "活跃:{sur,human}  摸鱼:{ob}  空位:{vac}  存活特感:{spe,alive}  本局特感击杀:{ksi}",
-		versus = "生还:{sur,human}  VS  特感:{spe,human}"
+		// 關鍵詞：{特殊(ob,idle,vac,max),隊伍(sur,spe),真人或BOT(human,bot),生存或死亡(alive,dead),運算(+,-)} 如果不包含某個關鍵詞則不對其限定
+		// ob,idle,vac,max 為特殊關鍵詞，當包含該類關鍵詞時其它所有關鍵詞無效
+		// 除隊伍可同時包含 sur 與 spe 外，其它型別的關鍵詞若同時出現則只有最後一個有效
+		// 可以使用擊殺、傷害數據關鍵字，會顯示為所有玩家的總和
+		coop = "活躍:{sur,human}  摸魚:{ob}  空位:{vac}  存活特感:{spe,alive}  本局特感擊殺:{ksi}",
+		versus = "生還:{sur,human}  VS  特感:{spe,human}"
 	},
 	hurt = {
-		HUDRank = 4, // HUD排行榜最多显示多少人
-		HUDRankMode = 0, // 0:紧凑式 1:分列式:兼容多分辨率 2:分列式:不兼容多分辨率（个人不推荐）
+		HUDRank = 4, // HUD排行榜最多顯示多少人
+		HUDRankMode = 0, // 0:緊湊式 1:分列式:相容多解析度 2:分列式:不相容多解析度（個人不推薦）
 		rankCompact = {
-			title = "特感/丧尸击杀：",
+			title = "特感/喪屍擊殺：",
 			style = "[{rank}] {ksi}/{kci} <- {name}({state})",
 		},
 		rankColumnAlign = [
@@ -31,12 +31,12 @@ printl("[LinGe] HUD 正在载入");
 				width = 0.1,
 			},
 			{
-				title = "丧尸",
+				title = "喪屍",
 				style = "{kci}/{o_kci}",
 				width = 0.1,
 			},
 			{
-				title = "血量状态",
+				title = "血量狀態",
 				style = "{state}",
 				width = 0.1,
 
@@ -48,17 +48,17 @@ printl("[LinGe] HUD 正在载入");
 			},
 		],
 		tankHurt = {
-			title = "本次击杀了共 {count} 只 Tank，伤害贡献如下",
+			title = "本次擊殺了共 {count} 只 Tank，傷害貢獻如下",
 			style = "[{rank}] {hurt} <- {name}"
 		},
-		teamHurtInfo = 2, // 友伤即时提示 0:关闭 1:公开处刑 2:仅攻击者和被攻击者可见
-		autoPrint = 0, // 每间隔多少s在聊天窗输出一次数据统计，若为0则只在本局结束时输出，若<0则永远不输出
-		chatRank = 4, // 聊天窗输出时除了最高友伤、最高被黑 剩下显示最多多少人的数据
-		chatStyle2 = "特:{ksi}({si}伤害) 尸:{kci} 黑:{atk} 被黑:{vct} <- {name}",
-		discardLostRound = false, // 累计数据中是否不统计败局的数据
-		chatAtkMaxStyle = "队友鲨手:{name}({hurt})", // 友伤最高与受到友伤最高
-		chatVctMaxStyle = "都欺负我:{name}({hurt})",
-		chatTeamHurtPraise = "大家真棒，没有友伤的世界达成了~",
+		teamHurtInfo = 2, // 友傷即時提示 0:關閉 1:公開處刑 2:僅攻擊者和被攻擊者可見
+		autoPrint = 0, // 每間隔多少s在聊天窗輸出一次數據統計，若為0則只在本局結束時輸出，若<0則永遠不輸出
+		chatRank = 4, // 聊天窗輸出時除了最高友傷、最高被黑 剩下顯示最多多少人的數據
+		chatStyle2 = "特:{ksi}({si}傷害) 尸:{kci} 黑:{atk} 被黑:{vct} <- {name}",
+		discardLostRound = false, // 累計數據中是否不統計敗局的數據
+		chatAtkMaxStyle = "隊友鯊手:{name}({hurt})", // 友傷最高與受到友傷最高
+		chatVctMaxStyle = "都欺負我:{name}({hurt})",
+		chatTeamHurtPraise = "大家真棒，沒有友傷的世界達成了~",
 		HUDRankShowBot = false
 	},
 	textHeight2 = 0.026, // 一行文字通用高度
@@ -75,11 +75,11 @@ printl("[LinGe] HUD 正在载入");
 };
 ::LinGe.Config.Add("HUD", ::LinGe.HUD.Config);
 ::LinGe.Cache.HUD_Config <- ::LinGe.HUD.Config;
-local rankColumnAlign = clone ::LinGe.HUD.Config.hurt.rankColumnAlign; // 避免缓存还原后影响数组顺序
+local rankColumnAlign = clone ::LinGe.HUD.Config.hurt.rankColumnAlign; // 避免快取還原後影響陣列順序
 
-::LinGe.HUD.playersIndex <- []; // 排行榜玩家实体索引列表 包括生还者（含BOT）与本局从生还者进入闲置或旁观的玩家
-::LinGe.HUD.hurtData <- []; // 伤害与击杀数据
-::LinGe.HUD.hurtData_bak <- {}; // 以UniqueID为key保存数据，已经离开的玩家与过关时所有玩家的数据会在此保存
+::LinGe.HUD.playersIndex <- []; // 排行榜玩家實體索引列表 包括生還者（含BOT）與本局從生還者進入閑置或旁觀的玩家
+::LinGe.HUD.hurtData <- []; // 傷害與擊殺數據
+::LinGe.HUD.hurtData_bak <- {}; // 以UniqueID為key儲存數據，已經離開的玩家與過關時所有玩家的數據會在此儲存
 ::LinGe.Cache.hurtData_bak <- ::LinGe.HUD.hurtData_bak;
 local hurtDataTemplate = { tank=0 };
 local item_key = ["ksi", "hsi", "kci", "hci", "si", "atk", "vct"];
@@ -95,17 +95,17 @@ foreach (key in item_key)
 	ex_str += format("|%s|t_%s|o_%s", key, key, key);
 }
 local exHurtItem = regexp("{(rank|name|state" + ex_str + ")((:%)([-\\w]+))?}");
-// rank为排名，name为玩家名，state为玩家当前血量与状态，若无异常状态则只显示血量
-// ksi=击杀的特感数量 hsi=爆头击杀特感的数量 kci=击杀的丧尸数量 hci=爆头击杀丧尸的数量
-// si=对特感伤害 atk=对别人的友伤 vct=自己受到的友伤 tank=对tank伤害
-// 对特感伤害中不包含对Tank和Witch的伤害 对Tank伤害会单独列出
-// 以 t_ 开头的代表整局游戏的累计数据
-// 以 o_ 开头的数据总是在最开始的时候初始化为 t_ 的值，与 t_ 不同的是，它不会实时更新
-// 可以指定格式化方式，设置方式参考 https://www.runoob.com/cprogramming/c-function-printf.html
-// 需要注意数据类型相匹配，例如 {name:%4d} 会出错，同时也不推荐对字符串数据自定义格式化方式
-// 最初是想用来设置数据对齐，不过效果太差，所以又做了分列数据的功能。自定义格式化方式的功能保留，但不推荐使用
+// rank為排名，name為玩家名，state為玩家當前血量與狀態，若無異常狀態則只顯示血量
+// ksi=擊殺的特感數量 hsi=爆頭擊殺特感的數量 kci=擊殺的喪屍數量 hci=爆頭擊殺喪屍的數量
+// si=對特感傷害 atk=對別人的友傷 vct=自己受到的友傷 tank=對tank傷害
+// 對特感傷害中不包含對Tank和Witch的傷害 對Tank傷害會單獨列出
+// 以 t_ 開頭的代表整局遊戲的累計數據
+// 以 o_ 開頭的數據總是在最開始的時候初始化為 t_ 的值，與 t_ 不同的是，它不會實時更新
+// 可以指定格式化方式，設定方式參考 https://www.runoob.com/cprogramming/c-function-printf.html
+// 需要注意數據型別相匹配，例如 {name:%4d} 會出錯，同時也不推薦對字串數據自定義格式化方式
+// 最初是想用來設定數據對齊，不過效果太差，所以又做了分列數據的功能。自定義格式化方式的功能保留，但不推薦使用
 
-// 预处理文本处理函数
+// 預處理文字處理函式
 ::LinGe.HUD.Pre <- {};
 
 local exPlayers = regexp("{([a-z\\,\\+\\-]*)}");
@@ -148,7 +148,7 @@ local exPlayers = regexp("{([a-z\\,\\+\\-]*)}");
 					if (idx != null)
 						specialKey = key;
 					else
-						printl("[LinGe] HUD playersStyle 无效关键词：" + key);
+						printl("[LinGe] HUD playersStyle 無效關鍵詞：" + key);
 					break;
 				}
 				}
@@ -199,7 +199,7 @@ local exPlayers = regexp("{([a-z\\,\\+\\-]*)}");
 
 ::LinGe.HUD.Pre.BuildFuncCode_Rank <- function (result, wrap=@(str) str)
 {
-	local res = exHurtItem.capture(result.format_str); // index=0 带{}的完整匹配 index=1 不带{}的分组1
+	local res = exHurtItem.capture(result.format_str); // index=0 帶{}的完整匹配 index=1 不帶{}的分組1
 
 	if (res != null)
 	{
@@ -374,26 +374,26 @@ local exTankHurt = regexp("{(rank|name|hurt)((:%)([-\\w]+))?}");
 	local empty_table = {key=[], format_str="", format_args="", funcCode=""};
 	local result;
 
-	// 战役模式 玩家数量显示预处理
+	// 戰役模式 玩家數量顯示預處理
 	result = ::LinGe.DeepClone(empty_table);
 	result.format_str = ::LinGe.HUD.Config.playersStyle.coop;
 	BuildFuncCode_Players(result);
 	::LinGe.HUD.Pre.PlayersCoop <- compilestring(result.funcCode);
 
-	// 对抗模式 玩家数量显示预处理
+	// 對抗模式 玩家數量顯示預處理
 	result = ::LinGe.DeepClone(empty_table);
 	result.format_str = ::LinGe.HUD.Config.playersStyle.versus;
 	BuildFuncCode_Players(result);
 	::LinGe.HUD.Pre.PlayersVersus <- compilestring(result.funcCode);
 
-	// HUD排行榜紧凑模式预处理
+	// HUD排行榜緊湊模式預處理
 	result = ::LinGe.DeepClone(empty_table);
 	result.format_str = ::LinGe.HUD.Config.hurt.rankCompact.style;
 	BuildFuncCode_Rank(result);
-	::LinGe.HUD.Pre.HUDCompactKey <- result.key; // key列表需要保存下来，用于排序
+	::LinGe.HUD.Pre.HUDCompactKey <- result.key; // key列表需要儲存下來，用於排序
 	::LinGe.HUD.Pre.HUDCompactFunc <- compilestring(result.funcCode);
 
-	// HUD排行榜列对齐模式预处理
+	// HUD排行榜列對齊模式預處理
 	::LinGe.HUD.Pre.HUDColumnKey <- [];
 	::LinGe.HUD.Pre.HUDColumnFuncFull <- [];
 	::LinGe.HUD.Pre.HUDColumnFunc <- [];
@@ -408,20 +408,20 @@ local exTankHurt = regexp("{(rank|name|hurt)((:%)([-\\w]+))?}");
 		if (val.style.find("{name}") != null)
 		{
 			if (HUDColumnNameIndex != -1)
-				printl("[LinGe] HUD 排行榜多列数据包含玩家名，不推荐这样做。");
+				printl("[LinGe] HUD 排行榜多列數據包含玩家名，不推薦這樣做。");
 			HUDColumnNameIndex = HUDColumnFuncFull.len();
 		}
 		HUDColumnFuncFull.append(compilestring(result.funcCode));
 	}
 
-	// 聊天窗排行榜预处理
+	// 聊天窗排行榜預處理
 	result = ::LinGe.DeepClone(empty_table);
 	result.format_str = ::LinGe.HUD.Config.hurt.chatStyle2;
 	BuildFuncCode_Rank(result, @(str) "\x03" + str + "\x04");
 	::LinGe.HUD.Pre.ChatKey <- result.key;
 	::LinGe.HUD.Pre.ChatFunc <- compilestring(result.funcCode);
 
-	// 最高友伤与受到最高友伤预处理
+	// 最高友傷與受到最高友傷預處理
 	if (::LinGe.HUD.Config.hurt.chatAtkMaxStyle)
 	{
 		result = ::LinGe.DeepClone(empty_table);
@@ -441,7 +441,7 @@ local exTankHurt = regexp("{(rank|name|hurt)((:%)([-\\w]+))?}");
 	else
 		::LinGe.HUD.Pre.VctMaxFunc <- null;
 
-	// Tank 伤害预处理
+	// Tank 傷害預處理
 	result = ::LinGe.DeepClone(empty_table);
 	result.format_str = ::LinGe.HUD.Config.hurt.tankHurt.title;
 	BuildFuncCode_TankTitle(result, @(str) "\x03" + str + "\x04");
@@ -454,32 +454,32 @@ local exTankHurt = regexp("{(rank|name|hurt)((:%)([-\\w]+))?}");
 }
 ::LinGe.HUD.Pre.CompileFunc();
 
-const HUD_MAX_STRING_LENGTH = 127; // 一个HUD Slot最多只能显示127字节字符
+const HUD_MAX_STRING_LENGTH = 127; // 一個HUD Slot最多隻能顯示127位元組字元
 const HUD_SLOT_BEGIN = 0;
 const HUD_SLOT_END = 14;
-const HUD_SLOT_RANK_BEGIN	= 0; // 紧凑模式下 第一个SLOT显示标题 后续显示每个玩家的数据 分列模式则各自显示不同的数据
+const HUD_SLOT_RANK_BEGIN	= 0; // 緊湊模式下 第一個SLOT顯示標題 後續顯示每個玩家的數據 分列模式則各自顯示不同的數據
 local HUD_SLOT_RANK_END		= 0;
-local HUD_RANK_COMPACT_PLAYERS	= 0; // 根据空闲slot数量，紧凑模式最多能显示28个玩家数据
-const HUD_RANK_COLUMN_PLAYERS_COMPAT = 8; // 分列模式兼容模式最多能显示8个玩家的数据，7列数据
-const HUD_RANK_COLUMN_PLAYERS	= 16; // 分列模式不兼容模式最多能显示16个玩家的数据，5列数据
+local HUD_RANK_COMPACT_PLAYERS	= 0; // 根據空閑slot數量，緊湊模式最多能顯示28個玩家數據
+const HUD_RANK_COLUMN_PLAYERS_COMPAT = 8; // 分列模式相容模式最多能顯示8個玩家的數據，7列數據
+const HUD_RANK_COLUMN_PLAYERS	= 16; // 分列模式不相容模式最多能顯示16個玩家的數據，5列數據
 local HUD_RANK_COLUMN_MAX		= 0;
-// 服务器每1s内会多次根据HUD_table更新屏幕上的HUD
-// 脚本只需将HUD_table中的数据进行更新 而无需反复执行HUDSetLayout和HUDPlace
+// 伺服器每1s內會多次根據HUD_table更新螢幕上的HUD
+// 指令碼只需將HUD_table中的數據進行更新 而無需反覆執行HUDSetLayout和HUDPlace
 local HUD_table_template = {
-	hostname = { // 服务器名
+	hostname = { // 伺服器名
 		slot = 0,
 		dataval = Convars.GetStr("hostname"),
 		flags = HUD_FLAG_NOBG | HUD_FLAG_ALIGN_LEFT
 	},
-	time = { // 显示当地时间需 LinGe_VScripts 辅助插件支持
+	time = { // 顯示當地時間需 LinGe_VScripts 輔助外掛支援
 		slot = 0,
-		// 无边框 左对齐
+		// 無邊框 左對齊
 		flags = HUD_FLAG_NOBG | HUD_FLAG_ALIGN_LEFT
 	},
-	players = { // 目前玩家数
+	players = { // 目前玩家數
 		slot = 0,
 		dataval = "",
-		// 无边框 左对齐
+		// 無邊框 左對齊
 		flags = HUD_FLAG_NOBG | HUD_FLAG_ALIGN_LEFT
 	}
 };
@@ -494,7 +494,7 @@ for (local i=HUD_SLOT_BEGIN; i<=HUD_SLOT_END; i++)
 ::LinGe.HUD.HUD_table <- {Fields = clone HUD_table_template};
 
 local isExistTime = false;
-// 按照Config配置更新HUD属性信息
+// 按照Config配置更新HUD屬性資訊
 ::LinGe.HUD.ApplyConfigHUD <- function ()
 {
 	if (!Config.HUDShow.all)
@@ -513,7 +513,7 @@ local isExistTime = false;
 	if (Config.HUDShow.time)
 	{
 		HUD_table.Fields.time.slot = HUD_SLOT_RANK_END;
-		HUDPlace(HUD_SLOT_RANK_END, Config.position.time_x, Config.position.time_y, 1.0, height); // 设置时间显示位置
+		HUDPlace(HUD_SLOT_RANK_END, Config.position.time_x, Config.position.time_y, 1.0, height); // 設定時間顯示位置
 		HUD_SLOT_RANK_END--;
 		if (isExistTime)
 			HUD_table.Fields.time.dataval <- "";
@@ -528,7 +528,7 @@ local isExistTime = false;
 	if (Config.HUDShow.players)
 	{
 		HUD_table.Fields.players.slot = HUD_SLOT_RANK_END;
-		HUDPlace(HUD_SLOT_RANK_END, Config.position.players_x, Config.position.players_y, 1.0, height); // 设置玩家数量信息显示位置
+		HUDPlace(HUD_SLOT_RANK_END, Config.position.players_x, Config.position.players_y, 1.0, height); // 設定玩家數量資訊顯示位置
 		HUD_SLOT_RANK_END--;
 	}
 	else
@@ -539,7 +539,7 @@ local isExistTime = false;
 	if (Config.HUDShow.hostname)
 	{
 		HUD_table.Fields.hostname.slot = HUD_SLOT_RANK_END;
-		HUDPlace(HUD_SLOT_RANK_END, Config.position.hostname_x, Config.position.hostname_y, 1.0, height); // 设置服务器名显示位置
+		HUDPlace(HUD_SLOT_RANK_END, Config.position.hostname_x, Config.position.hostname_y, 1.0, height); // 設定伺服器名顯示位置
 		HUD_SLOT_RANK_END--;
 	}
 	else
@@ -549,7 +549,7 @@ local isExistTime = false;
 
 	HUD_RANK_COMPACT_PLAYERS = 2 * (HUD_SLOT_RANK_END - HUD_SLOT_RANK_BEGIN);
 
-	// 编号与隐藏多余的rank项
+	// 編號與隱藏多餘的rank項
 	local i = 0;
 	for (i=HUD_SLOT_RANK_BEGIN; i<=HUD_SLOT_RANK_END; i++)
 	{
@@ -563,11 +563,11 @@ local isExistTime = false;
 	switch (Config.hurt.HUDRankMode)
 	{
 	case 0:
-		// 紧凑模式
+		// 緊湊模式
 		local slot_end = HUD_SLOT_RANK_BEGIN;
 		HUD_table.Fields["rank" + HUD_SLOT_RANK_BEGIN].dataval = Config.hurt.rankCompact.title;
 
-		// 当一行只显示一个玩家数据slot不够用时，一行显示两个玩家的数据
+		// 當一行只顯示一個玩家數據slot不夠用時，一行顯示兩個玩家的數據
 		if (Config.hurt.HUDRank > HUD_RANK_COMPACT_PLAYERS / 2)
 		{
 			HUDPlace(HUD_SLOT_RANK_BEGIN, Config.position.rank_x, Config.position.rank_y, 1.0, height);
@@ -587,9 +587,9 @@ local isExistTime = false;
 		else if (slot_end <= HUD_SLOT_RANK_BEGIN)
 			slot_end = -1;
 
-		for (i=HUD_SLOT_RANK_BEGIN; i<=slot_end; i++) // 将需要显示的 slot 取消隐藏
+		for (i=HUD_SLOT_RANK_BEGIN; i<=slot_end; i++) // 將需要顯示的 slot 取消隱藏
 			HUD_table.Fields["rank"+i].flags = HUD_table.Fields["rank"+i].flags & (~HUD_FLAG_NOTVISIBLE);
-		// 隐藏多余的 slot
+		// 隱藏多餘的 slot
 		while (i <= HUD_SLOT_RANK_END)
 		{
 			HUD_table.Fields["rank"+i].flags = HUD_table.Fields["rank"+i].flags | HUD_FLAG_NOTVISIBLE;
@@ -597,14 +597,14 @@ local isExistTime = false;
 		}
 		break;
 	case 1:
-		// 分列模式 兼容
+		// 分列模式 相容
 		for (i=HUD_SLOT_RANK_BEGIN; i<=HUD_SLOT_RANK_END; i++)
 		{
 			HUD_table.Fields["rank"+i].dataval = "";
 			HUD_table.Fields["rank"+i].flags = HUD_table.Fields["rank"+i].flags & (~HUD_FLAG_NOTVISIBLE);
 		}
 
-		// 将 slot 摆放至指定位置
+		// 將 slot 擺放至指定位置
 		local pos_x = Config.position.rank_x;
 		if (Config.hurt.HUDRank > HUD_RANK_COLUMN_PLAYERS_COMPAT / 2)
 		{
@@ -643,14 +643,14 @@ local isExistTime = false;
 		}
 		break;
 	default:
-		// 分列模式 非兼容
+		// 分列模式 非相容
 		for (i=HUD_SLOT_RANK_BEGIN; i<=HUD_SLOT_RANK_END; i++)
 		{
 			HUD_table.Fields["rank"+i].dataval = "";
 			HUD_table.Fields["rank"+i].flags = HUD_table.Fields["rank"+i].flags & (~HUD_FLAG_NOTVISIBLE);
 		}
 
-		// 将 slot 摆放至指定位置
+		// 將 slot 擺放至指定位置
 		local pos_x = Config.position.rank_x;
 		if (Config.hurt.HUDRank > HUD_RANK_COLUMN_PLAYERS/2)
 		{
@@ -732,7 +732,7 @@ local isExistTime = false;
 {
 	if (Config.hurt.HUDRank > 0)
 	{
-		// 不在 Timer_HUD 里更新排行榜，避免同一Tick内处理太多数据导致游戏卡顿
+		// 不在 Timer_HUD 里更新排行榜，避免同一Tick內處理太多數據導致遊戲卡頓
 		UpdateRankHUD();
 		::VSLib.Timers.AddTimerByName("Timer_UpdateRankHUD", 1.0, true, UpdateRankHUD);
 	}
@@ -740,7 +740,7 @@ local isExistTime = false;
 	{
 		::VSLib.Timers.RemoveTimerByName("Timer_UpdateRankHUD");
 	}
-	HUDSetLayout(HUD_table); // 延迟1.5s再次HUDSetLayout，避免与其它MOD冲突而失效
+	HUDSetLayout(HUD_table); // 延遲1.5s再次HUDSetLayout，避免與其它MOD衝突而失效
 }.bindenv(::LinGe.HUD);
 
 ::LinGe.HUD.Timer_HUD <- function (params=null)
@@ -756,7 +756,7 @@ local isExistTime = false;
 	}
 }.bindenv(::LinGe.HUD);
 
-// 将玩家的伤害数据从 hurtData 备份到 hurtData_bak
+// 將玩家的傷害數據從 hurtData 備份到 hurtData_bak
 ::LinGe.HUD.BackupAllHurtData <- function ()
 {
 	for (local i=1; i<=32; i++)
@@ -776,7 +776,7 @@ local isExistTime = false;
 ::LinGe.HUD.GetPlayerBakHurtData <- function (player)
 {
 	if (typeof player != "instance")
-		throw "player 类型非法";
+		throw "player 型別非法";
 	if (!player.IsValid())
 		return null;
 	if (player.GetNetworkIDString() == "BOT")
@@ -789,10 +789,10 @@ local isExistTime = false;
 
 ::LinGe.HUD.On_cache_restore <- function (params)
 {
-	// 将HurtData_bak中的非累计数据置为0
+	// 將HurtData_bak中的非累計數據置為0
 	foreach (id, d in hurtData_bak)
 	{
-		if (!d.rawin("hsi")) // Cache 还原后，小写h总是会被改写为大写H，大坑
+		if (!d.rawin("hsi")) // Cache 還原后，小寫h總是會被改寫為大寫H，大坑
 			d.hsi <- 0;
 		if (!d.rawin("hci"))
 			d.hci <- 0;
@@ -823,17 +823,17 @@ local isExistTime = false;
 		}
 	}
 
-	// 将 rankColumnAlign 还原为配置文件内容
-	// 因为保存到 Cache 时，array会变成table，顺序会被打乱
-	// 所以需要将其直接还原为配置文件内容，以避免在 !save 时保存成乱序的排行榜配置
+	// 將 rankColumnAlign 還原為配置檔案內容
+	// 因為儲存到 Cache 時，array會變成table，順序會被打亂
+	// 所以需要將其直接還原為配置檔案內容，以避免在 !save 時儲存成亂序的排行榜配置
 	Config.hurt.rankColumnAlign = clone rankColumnAlign;
 }
 ::LinEventHook("cache_restore", ::LinGe.HUD.On_cache_restore, ::LinGe.HUD);
 
-// 回合失败
+// 回合失敗
 ::LinGe.HUD.SaveHurt_RoundLost <- function (params)
 {
-	// 如果不统计回合失败时的累计数据，则需将 t_ 数据还原为 o_
+	// 如果不統計回合失敗時的累計數據，則需將 t_ 數據還原為 o_
 	BackupAllHurtData();
 	if (Config.hurt.discardLostRound)
 	{
@@ -846,17 +846,17 @@ local isExistTime = false;
 }
 ::LinEventHook("OnGameEvent_round_end", ::LinGe.HUD.SaveHurt_RoundLost, ::LinGe.HUD);
 
-// 成功过关
+// 成功過關
 ::LinGe.HUD.SaveHurt_RoundWin <- function (params)
 {
 	BackupAllHurtData();
 }
 ::LinEventHook("OnGameEvent_map_transition", ::LinGe.HUD.SaveHurt_RoundWin, ::LinGe.HUD);
 
-// 事件：回合开始
+// 事件：回合開始
 ::LinGe.HUD.OnGameEvent_round_start <- function (params)
 {
-	// 如果linge_time变量不存在则显示回合时间
+	// 如果linge_time變數不存在則顯示回合時間
 	if (null == Convars.GetStr("linge_time"))
 	{
 		isExistTime = false;
@@ -873,9 +873,9 @@ local isExistTime = false;
 }
 ::LinEventHook("OnGameEvent_round_start", ::LinGe.HUD.OnGameEvent_round_start, ::LinGe.HUD);
 
-// 玩家队伍更换事件
-// team=0：玩家刚连接、和断开连接时会被分配到此队伍 不统计此队伍的人数
-// team=1：旁观者 team=2：生还者 team=3：特感
+// 玩家隊伍更換事件
+// team=0：玩家剛連線、和斷開連線時會被分配到此隊伍 不統計此隊伍的人數
+// team=1：旁觀者 team=2：生還者 team=3：特感
 ::LinGe.HUD.OnGameEvent_player_team <- function (params)
 {
 	if (!params.rawin("userid"))
@@ -913,10 +913,10 @@ local isExistTime = false;
 }
 ::LinEventHook("OnGameEvent_player_team", ::LinGe.HUD.OnGameEvent_player_team, ::LinGe.HUD);
 
-// 事件：玩家受伤 友伤信息提示、伤害数据统计
-// 对witch伤害和对小僵尸伤害不会触发这个事件
-// witch伤害不记录，tank伤害单独记录
-::LinGe.HUD.tempTeamHurt <- {}; // 友伤临时数据记录
+// 事件：玩家受傷 友傷資訊提示、傷害數據統計
+// 對witch傷害和對小殭屍傷害不會觸發這個事件
+// witch傷害不記錄，tank傷害單獨記錄
+::LinGe.HUD.tempTeamHurt <- {}; // 友傷臨時數據記錄
 ::LinGe.HUD.OnGameEvent_player_hurt <- function (params)
 {
 	if (!params.rawin("dmg_health"))
@@ -924,38 +924,38 @@ local isExistTime = false;
 	if (params.dmg_health < 1)
 		return;
 
-	if (0 == params.type) // 伤害类型为0
+	if (0 == params.type) // 傷害型別為0
 		return;
-	local attacker = GetPlayerFromUserID(params.attacker); // 获得攻击者实体
-	if (null == attacker) // 攻击者无效
+	local attacker = GetPlayerFromUserID(params.attacker); // 獲得攻擊者實體
+	if (null == attacker) // 攻擊者無效
 		return;
-	if (!attacker.IsSurvivor()) // 攻击者不是生还者
+	if (!attacker.IsSurvivor()) // 攻擊者不是生還者
 		return;
 
-	// 获取被攻击者实体
+	// 獲取被攻擊者實體
 	local victim = GetPlayerFromUserID(params.userid);
 	local vctHp = victim.GetHealth();
 	local dmg = params.dmg_health;
-	// 如果被攻击者是生还者则统计友伤数据
+	// 如果被攻擊者是生還者則統計友傷數據
 	if (victim.IsSurvivor())
 	{
 		if (victim.IsDying() || victim.IsDead())
 			return;
-		else if (vctHp < 0) // 致死伤害事件发生时，victim.IsDead()还不会为真，但血量会<0
+		else if (vctHp < 0) // 致死傷害事件發生時，victim.IsDead()還不會為真，但血量會<0
 		{
-			// 如果是本次伤害致其死亡，则 生命值 + 伤害值 > 0
+			// 如果是本次傷害致其死亡，則 生命值 + 傷害值 > 0
 			if (vctHp + dmg <= 0)
 				return;
 		}
 		else if (victim.IsIncapacitated())
 		{
-			// 如果是本次伤害致其倒地，则其当前血量+伤害量=300
-			// 如果不是，则说明攻击时已经倒地，则不统计本次友伤
+			// 如果是本次傷害致其倒地，則其目前血量+傷害量=300
+			// 如果不是，則說明攻擊時已經倒地，則不統計本次友傷
 			if (vctHp + dmg != 300)
 				return;
 		}
 
-		// 若不是对自己造成的伤害，则计入累计统计
+		// 若不是對自己造成的傷害，則計入累計統計
 		if (attacker != victim)
 		{
 			hurtData[attacker.GetEntityIndex()].atk += dmg;
@@ -964,7 +964,7 @@ local isExistTime = false;
 			hurtData[victim.GetEntityIndex()].t_vct += dmg;
 		}
 
-		// 若开启了友伤提示，则计入临时数据统计
+		// 若開啟了友傷提示，則計入臨時數據統計
 		if (Config.hurt.teamHurtInfo >= 1 && Config.hurt.teamHurtInfo <= 2)
 		{
 			local key = params.attacker + "_" + params.userid;
@@ -974,37 +974,37 @@ local isExistTime = false;
 					victim=victim, vctName=victim.GetPlayerName(), isDead=false, isIncap=false };
 			}
 			tempTeamHurt[key].dmg += dmg;
-			// 友伤发生后，0.5秒内同一人若未再对同一人造成友伤，则输出其造成的伤害
+			// 友傷發生后，0.5秒內同一人若未再對同一人造成友傷，則輸出其造成的傷害
 			VSLib.Timers.AddTimerByName(key, 0.5, false, Timer_PrintTeamHurt, key);
 		}
 	}
-	else // 不是生还者团队则统计对特感的伤害数据
+	else // 不是生還者團隊則統計對特感的傷害數據
 	{
-		// 如果是Tank 则将数据记录到临时Tank伤害数据记录
+		// 如果是Tank 則將數據記錄到臨時Tank傷害數據記錄
 		if (8 == victim.GetZombieType())
 		{
-			if (5000 == dmg) // 击杀Tank时会产生5000伤害事件，不知道为什么设计了这样的机制
+			if (5000 == dmg) // 擊殺Tank時會產生5000傷害事件，不知道為什麼設計了這樣的機制
 				return;
 			hurtData[attacker.GetEntityIndex()].tank += dmg;
 		}
-		else // 不是生还者且不是Tank，则为普通特感(此事件下不可能为witch)
+		else // 不是生還者且不是Tank，則為普通特感(此事件下不可能為witch)
 		{
 			if (vctHp < 0)
-				dmg += vctHp; // 修正溢出伤害
+				dmg += vctHp; // 修正溢出傷害
 			hurtData[attacker.GetEntityIndex()].si += dmg;
 			hurtData[attacker.GetEntityIndex()].t_si += dmg;
 		}
 	}
 }
 ::LinEventHook("OnGameEvent_player_hurt", ::LinGe.HUD.OnGameEvent_player_hurt, ::LinGe.HUD);
-/*	Tank的击杀伤害与致队友倒地时的伤害存在溢出
-	没能发现太好修正方法，因为当上述两种情况发生时
-	已经无法获得其最后一刻的真实血量
-	除非时刻记录Tank和队友的血量，然后以此为准编写一套逻辑
-	但这样实在太浪费资源，且容易出现BUG
+/*	Tank的擊殺傷害與致隊友倒地時的傷害存在溢出
+	沒能發現太好修正方法，因為當上述兩種情況發生時
+	已經無法獲得其最後一刻的真實血量
+	除非時刻記錄Tank和隊友的血量，然後以此為準編寫一套邏輯
+	但這樣實在太浪費資源，且容易出現BUG
 */
 
-// 提示一次友伤伤害并删除累积数据
+// 提示一次友傷傷害並刪除累積數據
 ::LinGe.HUD.Timer_PrintTeamHurt <- function (key)
 {
 	local info = tempTeamHurt[key];
@@ -1017,21 +1017,21 @@ local isExistTime = false;
 		if (info.attacker == info.victim)
 			vctName = "他自己";
 		text = "\x03" + atkName
-			+ "\x04 对 \x03" + vctName
-			+ "\x04 造成了 \x03" + info.dmg + "\x04 点伤害";
+			+ "\x04 對 \x03" + vctName
+			+ "\x04 造成了 \x03" + info.dmg + "\x04 點傷害";
 		if (info.isDead)
 		{
 			if (info.attacker == info.victim)
-				text += "，并且死亡";
+				text += "，並且死亡";
 			else
-				text += "，并且杀死了对方";
+				text += "，並且殺死了對方";
 		}
 		else if (info.isIncap)
 		{
 			if (info.attacker == info.victim)
-				text += "，并且倒地";
+				text += "，並且倒地";
 			else
-				text += "，并且击倒了对方";
+				text += "，並且擊倒了對方";
 		}
 		ClientPrint(null, 3, text);
 	}
@@ -1041,11 +1041,11 @@ local isExistTime = false;
 		{
 			if (info.attacker.IsValid())
 			{
-				text = "\x04你对 \x03自己\x04 造成了 \x03" + info.dmg + "\x04 点伤害";
+				text = "\x04你對 \x03自己\x04 造成了 \x03" + info.dmg + "\x04 點傷害";
 				if (info.isDead)
-					text += "，并且死亡";
+					text += "，並且死亡";
 				else if (info.isIncap)
-					text += "，并且倒地";
+					text += "，並且倒地";
 				ClientPrint(info.attacker, 3, text);
 			}
 		}
@@ -1053,23 +1053,23 @@ local isExistTime = false;
 		{
 			if (info.attacker.IsValid())
 			{
-				text = "\x04你对 \x03" + vctName
-					+ "\x04 造成了 \x03" + info.dmg + "\x04 点伤害";
+				text = "\x04你對 \x03" + vctName
+					+ "\x04 造成了 \x03" + info.dmg + "\x04 點傷害";
 				if (info.isDead)
-					text += "，并且杀死了他";
+					text += "，並且殺死了他";
 				else if (info.isIncap)
-					text += "，并且击倒了他";
+					text += "，並且擊倒了他";
 				ClientPrint(info.attacker, 3, text);
 			}
 
 			if (info.victim.IsValid())
 			{
 				text = "\x03" + atkName
-				+ "\x04 对你造成了 \x03" + info.dmg + "\x04 点伤害";
+				+ "\x04 對你造成了 \x03" + info.dmg + "\x04 點傷害";
 				if (info.isDead)
-					text += "，并且杀死了你";
+					text += "，並且殺死了你";
 				else if (info.isIncap)
-					text += "，并且打倒了你";
+					text += "，並且打倒了你";
 				ClientPrint(info.victim, 3, text);
 			}
 		}
@@ -1077,18 +1077,18 @@ local isExistTime = false;
 	tempTeamHurt.rawdelete(key);
 }.bindenv(LinGe.HUD);
 
-// 事件：玩家(特感/丧尸)死亡 统计击杀数量
-// 虽然是player_death 但小丧尸和witch死亡也会触发该事件
+// 事件：玩家(特感/喪屍)死亡 統計擊殺數量
+// 雖然是player_death 但小喪屍和witch死亡也會觸發該事件
 ::LinGe.HUD.OnGameEvent_player_death <- function (params)
 {
 	local dier = 0;	// 死者ID
-	local dierEntity = null;	// 死者实体
-	local attacker = 0; // 攻击者ID
-	local attackerEntity = null; // 攻击者实体
+	local dierEntity = null;	// 死者實體
+	local attacker = 0; // 攻擊者ID
+	local attackerEntity = null; // 攻擊者實體
 
 	if (params.victimname == "Infected" || params.victimname == "Witch")
 	{
-		// witch 和 小丧尸 不属于玩家可控制实体 无userid
+		// witch 和 小喪屍 不屬於玩家可控制實體 無userid
 		dier = params.entityid;
 	}
 	else
@@ -1102,11 +1102,11 @@ local isExistTime = false;
 
 	if (dierEntity && dierEntity.IsSurvivor())
 	{
-		// 自杀时伤害类型为0
+		// 自殺時傷害型別為0
 		if (params.type == 0)
 			return;
 
-		// 如果是友伤致其死亡
+		// 如果是友傷致其死亡
 		if (attackerEntity && attackerEntity.IsSurvivor())
 		{
 			local key = params.attacker + "_" + dier;
@@ -1152,11 +1152,11 @@ local isExistTime = false;
 
 	local player = GetPlayerFromUserID(params.userid);
 	local attackerEntity = null;
-	if (params.rawin("attacker")) // 如果是小丧尸或Witch等使玩家倒地，则无attacker
+	if (params.rawin("attacker")) // 如果是小喪屍或Witch等使玩家倒地，則無attacker
 		attackerEntity = GetPlayerFromUserID(params.attacker);
 	if (player.IsSurvivor())
 	{
-		// 如果是友伤致其倒地
+		// 如果是友傷致其倒地
 		if (attackerEntity && attackerEntity.IsSurvivor())
 		{
 			local key = params.attacker + "_" + params.userid;
@@ -1189,18 +1189,18 @@ local isExistTime = false;
 	switch (Config.hurt.teamHurtInfo)
 	{
 	case 1:
-		ClientPrint(null, 3, "\x04服务器已开启友伤提示 \x03公开处刑");
+		ClientPrint(null, 3, "\x04伺服器已開啟友傷提示 \x03公開處刑");
 		break;
 	case 2:
-		ClientPrint(null, 3, "\x04服务器已开启友伤提示 \x03仅双方可见");
+		ClientPrint(null, 3, "\x04伺服器已開啟友傷提示 \x03僅雙方可見");
 		break;
 	default:
-		ClientPrint(null, 3, "\x04服务器已关闭友伤提示");
+		ClientPrint(null, 3, "\x04伺服器已關閉友傷提示");
 		break;
 	}
-	ClientPrint(player, 3, "\x04!thi 0:关闭友伤提示 1:公开处刑 2:仅双方可见");
+	ClientPrint(player, 3, "\x04!thi 0:關閉友傷提示 1:公開處刑 2:僅雙方可見");
 }
-::LinCmdAdd("thi", ::LinGe.HUD.Cmd_thi, ::LinGe.HUD, "0:关闭友伤提示 1:公开处刑 2:仅双方可见");
+::LinCmdAdd("thi", ::LinGe.HUD.Cmd_thi, ::LinGe.HUD, "0:關閉友傷提示 1:公開處刑 2:僅雙方可見");
 
 ::LinGe.HUD.Cmd_hurtdata <- function (player, args)
 {
@@ -1211,7 +1211,7 @@ local isExistTime = false;
 	{
 		if (!::LinGe.Admin.IsAdmin(player))
 		{
-			ClientPrint(player, 3, "\x04权限不足！");
+			ClientPrint(player, 3, "\x04許可權不足！");
 		}
 		else if ("auto" == args[1])
 		{
@@ -1219,26 +1219,26 @@ local isExistTime = false;
 			Config.hurt.autoPrint = time;
 			ApplyAutoHurtPrint();
 			if (time > 0)
-				ClientPrint(player, 3, "\x04已设置每 \x03" + time + "\x04 秒播报一次聊天窗排行榜");
+				ClientPrint(player, 3, "\x04已設定每 \x03" + time + "\x04 秒播報一次聊天窗排行榜");
 			else if (0 == time)
-				ClientPrint(player, 3, "\x04已关闭定时聊天窗排行榜播报，回合结束时仍会播报");
+				ClientPrint(player, 3, "\x04已關閉定時聊天窗排行榜播報，回合結束時仍會播報");
 			else
-				ClientPrint(player, 3, "\x04已彻底关闭聊天窗排行榜播报");
+				ClientPrint(player, 3, "\x04已徹底關閉聊天窗排行榜播報");
 		}
 		else if ("player" == args[1])
 		{
 			local player = ::LinGe.TryStringToInt(args[2]);
 			Config.hurt.chatRank = player;
 			if (player > 0)
-				ClientPrint(player, 3, "\x04聊天窗排行榜将显示最多 \x03" + player + "\x04 人");
+				ClientPrint(player, 3, "\x04聊天窗排行榜將顯示最多 \x03" + player + "\x04 人");
 			else
-				ClientPrint(player, 3, "\x04已彻底关闭聊天窗排行榜与TANK伤害统计播报");
+				ClientPrint(player, 3, "\x04已徹底關閉聊天窗排行榜與TANK傷害統計播報");
 		}
 	}
 }
 ::LinCmdAdd("hurtdata", ::LinGe.HUD.Cmd_hurtdata, ::LinGe.HUD, "", false);
 ::LinCmdAdd("hurt", ::LinGe.HUD.Cmd_hurtdata, ::LinGe.HUD, "", false);
-::LinCmdAdd("hd", ::LinGe.HUD.Cmd_hurtdata, ::LinGe.HUD, "输出一次聊天窗排行榜或者调整自动播报配置", false);
+::LinCmdAdd("hd", ::LinGe.HUD.Cmd_hurtdata, ::LinGe.HUD, "輸出一次聊天窗排行榜或者調整自動播報配置", false);
 
 local reHudCmd = regexp("^(all|time|players|hostname)$");
 ::LinGe.HUD.Cmd_hud <- function (player, args)
@@ -1253,7 +1253,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 	{
 		if (args[1] == "rank")
 		{
-			ClientPrint(player, 3, "\x04!hud rank n 设置排行榜最大显示人数为n");
+			ClientPrint(player, 3, "\x04!hud rank n 設定排行榜最大顯示人數為n");
 			return;
 		}
 		else if (reHudCmd.search(args[1]))
@@ -1269,9 +1269,9 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 		ApplyConfigHUD();
 		return;
 	}
-	ClientPrint(player, 3, "\x04!hud time/players/hostname/rank 控制HUD元素的显示");
+	ClientPrint(player, 3, "\x04!hud time/players/hostname/rank 控制HUD元素的顯示");
 }
-::LinCmdAdd("hud", ::LinGe.HUD.Cmd_hud, ::LinGe.HUD, "time/players/hostname/rank 控制HUD元素的显示");
+::LinCmdAdd("hud", ::LinGe.HUD.Cmd_hud, ::LinGe.HUD, "time/players/hostname/rank 控制HUD元素的顯示");
 
 ::LinGe.HUD.Cmd_rank <- function (player, args)
 {
@@ -1281,14 +1281,14 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 		ApplyConfigHUD();
 		return;
 	}
-	ClientPrint(player, 3, "\x04!rank n 设置排行榜最大显示人数为n");
+	ClientPrint(player, 3, "\x04!rank n 設定排行榜最大顯示人數為n");
 }
 ::LinCmdAdd("rank", ::LinGe.HUD.Cmd_rank, ::LinGe.HUD);
 
 ::LinGe.HUD.GetPlayerState <- function (player)
 {
 	if (::LinGe.GetPlayerTeam(player) == 1)
-		return "摸鱼";
+		return "摸魚";
 	else if (!::LinGe.IsAlive(player))
 		return "死亡";
 	else
@@ -1298,11 +1298,11 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 		if (player.GetSpecialInfectedDominatingMe())
 			text += ",被控";
 		else if (player.IsHangingFromLedge())
-			text += ",挂边";
+			text += ",掛邊";
 		else if (player.IsIncapacitated())
 			text += ",倒地";
 		else if (::LinGe.GetReviveCount(player) >= 2)
-			text += ",濒死";
+			text += ",瀕死";
 		return text;
 	}
 }
@@ -1336,7 +1336,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 					rank++;
 				}
 			}
-			// 当前排行榜显示的人数小于最大显示人数时，清除可能存在的多余的行
+			// 目前排行榜顯示的人數小於最大顯示人數時，清除可能存在的多餘的行
 			if (rank % 2 == 0)
 				rank++;
 			while (rank <= max_rank)
@@ -1357,7 +1357,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 					rank++;
 				}
 			}
-			// 当前排行榜显示的人数小于最大显示人数时，清除可能存在的多余的行
+			// 目前排行榜顯示的人數小於最大顯示人數時，清除可能存在的多餘的行
 			while (rank <= max_rank)
 			{
 				HUD_table.Fields["rank" + (HUD_SLOT_RANK_BEGIN + rank)].dataval = "";
@@ -1369,7 +1369,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 		local max_rank = Config.hurt.HUDRank > HUD_RANK_COLUMN_PLAYERS_COMPAT ? HUD_RANK_COLUMN_PLAYERS_COMPAT : Config.hurt.HUDRank;
 		hurtDataSort(playersIndex, Pre.HUDColumnKey);
 
-		// 重新设置每列的内容
+		// 重新設定每列的內容
 		if (max_rank > HUD_RANK_COLUMN_PLAYERS_COMPAT/2)
 		{
 			for (local i=0; i<Pre.HUDColumnFunc.len(); i++)
@@ -1412,7 +1412,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 			}
 		}
 
-		// 使用换行符填充剩余的行，使文字行数对齐
+		// 使用換行符填充剩餘的行，使文字行數對齊
 		while (rank <= 4)
 		{
 			foreach (index, func in Pre.HUDColumnFunc)
@@ -1421,7 +1421,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 			}
 			rank++;
 		}
-		// 如果rank==5，则下半段的slot都是空白，无需处理
+		// 如果rank==5，則下半段的slot都是空白，無需處理
 		if (rank > 5)
 		{
 			while (rank <= 8)
@@ -1440,7 +1440,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 
 		if (max_rank > HUD_RANK_COLUMN_PLAYERS/2)
 		{
-			// 重新设置每列的内容
+			// 重新設定每列的內容
 			HUD_table.Fields["rank" + HUD_SLOT_RANK_END].dataval = "";
 			HUD_table.Fields["rank" + (HUD_SLOT_RANK_END - 1)].dataval = "";
 			for (local i=0; i<Pre.HUDColumnFunc.len(); i++)
@@ -1460,7 +1460,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 			}
 		}
 
-		// 列模式下，排行榜1~4、5、6~8、9、10~12、13、14~16名次均需要进行不同的处理
+		// 列模式下，排行榜1~4、5、6~8、9、10~12、13、14~16名次均需要進行不同的處理
 		local rank = 1;
 		local begin = HUD_SLOT_RANK_BEGIN;
 		local name_slot2 = HUD_table.Fields["rank" + HUD_SLOT_RANK_END];
@@ -1511,7 +1511,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 			}
 		}
 
-		// 使用换行符填充剩余的行，使文字行数对齐
+		// 使用換行符填充剩餘的行，使文字行數對齊
 		while (rank <= 8)
 		{
 			foreach (index, func in Pre.HUDColumnFunc)
@@ -1527,7 +1527,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 			}
 			rank++;
 		}
-		// 如果rank==9，则下半段的slot都是空白，无需处理
+		// 如果rank==9，則下半段的slot都是空白，無需處理
 		if (rank > 9)
 		{
 			while (rank <= 16)
@@ -1551,7 +1551,7 @@ local reHudCmd = regexp("^(all|time|players|hostname)$");
 }.bindenv(::LinGe.HUD);
 
 // Tank 事件控制
-// 在Tank全部死亡时输出并清空本次克局伤害统计
+// 在Tank全部死亡時輸出並清空本次克局傷害統計
 local nowTank = 0;
 local killTank = 0;
 ::LinGe.HUD.OnGameEvent_tank_spawn <- function (params)
@@ -1582,8 +1582,8 @@ local killTank = 0;
 	if (maxRank > 0 && len > 0)
 	{
 		hurtDataSort(idx, ["tank"]);
-		// 如果第一位的伤害也为0，则本次未对该Tank造成伤害，则不输出Tank伤害统计
-		// 终局时无线刷Tank 经常会出现这种0伤害的情况
+		// 如果第一位的傷害也為0，則本次未對該Tank造成傷害，則不輸出Tank傷害統計
+		// 終局時無線刷Tank 經常會出現這種0傷害的情況
 		if (hurtData[idx[0]].tank == 0)
 			return;
 		ClientPrint(null, 3, "\x04" + Pre.TankTitleFunc(killTank));
@@ -1595,7 +1595,7 @@ local killTank = 0;
 	}
 }
 
-// 根据当前的 Config.hurt.autoPrint 设置定时输出Timer
+// 根據目前的 Config.hurt.autoPrint 設定定時輸出Timer
 ::LinGe.HUD.ApplyAutoHurtPrint <- function ()
 {
 	if (Config.hurt.autoPrint <= 0)
@@ -1607,14 +1607,14 @@ local killTank = 0;
 	::LinEventUnHook("OnGameEvent_map_transition", ::LinGe.HUD.PrintChatRank);
 	if (Config.hurt.autoPrint >= 0)
 	{
-		// 回合结束时输出本局伤害统计
+		// 回合結束時輸出本局傷害統計
 		::LinEventHook("OnGameEvent_round_end", ::LinGe.HUD.PrintChatRank);
 		::LinEventHook("OnGameEvent_map_transition", ::LinGe.HUD.PrintChatRank);
 	}
 }
 
-// 向聊天窗公布当前的伤害数据统计
-// params是预留参数位置 为方便关联事件和定时器
+// 向聊天窗公佈目前的傷害數據統計
+// params是預留參數位置 為方便關聯事件和定時器
 ::LinGe.HUD.PrintChatRank <- function (params=0)
 {
 	local maxRank = Config.hurt.chatRank;
@@ -1624,7 +1624,7 @@ local killTank = 0;
 	{
 		local atkMax = { name="", hurt=0 };
 		local vctMax = clone atkMax;
-		// 遍历找出黑枪最多和被黑最多
+		// 遍歷找出黑槍最多和被黑最多
 		for (local i=0; i<len; i++)
 		{
 			local temp = hurtData[survivorIdx[i]];
@@ -1650,7 +1650,7 @@ local killTank = 0;
 			}
 		}
 
-		// 显示最高黑枪和最高被黑
+		// 顯示最高黑槍和最高被黑
 		if (0 == atkMax.hurt && 0 == vctMax.hurt && Config.hurt.chatTeamHurtPraise)
 		{
 			ClientPrint(null, 3, "\x05" + Config.hurt.chatTeamHurtPraise);
@@ -1678,7 +1678,7 @@ local killTank = 0;
 	return result;
 }
 
-// 冒泡排序 默认降序排序
+// 氣泡排序 預設降序排序
 ::LinGe.HUD.hurtDataSort <- function (survivorIdx, key, desc=true)
 {
 	local temp;
@@ -1704,7 +1704,7 @@ local killTank = 0;
 		return -1;
 	else if (hurtData[idx1][key[keyIdx]] == hurtData[idx2][key[keyIdx]])
 	{
-		if (keyIdx+1 < key.len()) // 如果还有可比较的值就继续比较
+		if (keyIdx+1 < key.len()) // 如果還有可比較的值就繼續比較
 			return hurtDataCompare(idx1, idx2, key, keyIdx+1);
 		else
 			return 0;
