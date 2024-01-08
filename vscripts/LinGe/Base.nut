@@ -1,18 +1,18 @@
 // By LinGe https://github.com/Lin515/L4D2_LinGe_VScripts
-// 本系列脚本编写主要参考以下文档
-// L4D2脚本函数清单：https://developer.valvesoftware.com/wiki/L4D2%E8%84%9A%E6%9C%AC%E5%87%BD%E6%95%B0%E6%B8%85%E5%8D%95
+// 本系列指令碼編寫主要參考以下文件
+// L4D2指令碼函式清單：https://developer.valvesoftware.com/wiki/L4D2%E8%84%9A%E6%9C%AC%E5%87%BD%E6%95%B0%E6%B8%85%E5%8D%95
 // L4D2 EMS/Appendix：HUD：https://developer.valvesoftware.com/wiki/L4D2_EMS/Appendix:_HUD
 // L4D2 Events：https://wiki.alliedmods.net/Left_4_Dead_2_Events
-// 以及VSLib与admin_system的脚本源码
-printl("[LinGe] Base 正在载入");
+// 以及VSLib與admin_system的指令碼原始碼
+printl("[LinGe] Base 正在載入");
 ::LinGe <- {};
 ::LinGe.Debug <- false;
 
 ::LinGe.hostport <- Convars.GetFloat("hostport").tointeger();
-printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
+printl("[LinGe] 目前伺服器埠 " + ::LinGe.hostport);
 
-// ---------------------------全局函数START-------------------------------------------
-// 主要用于调试
+// ---------------------------全域性函式START-------------------------------------------
+// 主要用於除錯
 ::LinGe.DebugPrintl <- function (str)
 {
 	if (::LinGe.Debug)
@@ -30,7 +30,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	print("\n");
 }
 
-// 递归深度克隆（只会对table或array的子项进行克隆）
+// 遞迴深度克隆（只會對table或array的子項進行克隆）
 ::LinGe.DeepClone <- function (obj)
 {
 	if (typeof obj == "table")
@@ -50,7 +50,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return obj;
 }
 
-// 尝试将一个字符串转换为int类型 eValue为出现异常时返回的值
+// 嘗試將一個字串轉換為int型別 eValue為出現異常時返回的值
 ::LinGe.TryStringToInt <- function (value, eValue=0)
 {
 	local ret = eValue;
@@ -64,7 +64,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	}
 	return ret;
 }
-// 尝试将一个字符串转换为float类型 eValue为出现异常时返回的值
+// 嘗試將一個字串轉換為float型別 eValue為出現異常時返回的值
 ::LinGe.TryStringToFloat <- function (value, eValue=0.0)
 {
 	local ret = eValue;
@@ -79,7 +79,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return ret;
 }
 
-// 查找并移除找到的第一个元素 返回其索引，若未找到则返回null
+// 查詢並移除找到的第一個元素 返回其索引，若未找到則返回null
 ::LinGe.RemoveInArray <- function (value, array)
 {
 	local idx = array.find(value);
@@ -88,10 +88,10 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return idx;
 }
 
-// 当前模式是否是对抗模式
+// 目前模式是否是對抗模式
 ::LinGe.CheckVersus <- function ()
 {
-	if (Director.GetGameMode() == "mutation15") // 生还者对抗
+	if (Director.GetGameMode() == "mutation15") // 生還者對抗
 		return true;
 	if ("versus" == g_BaseMode)
 		return true;
@@ -101,7 +101,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 }
 ::LinGe.isVersus <- ::LinGe.CheckVersus();
 
-// 设置某类下所有已生成实体的KeyValue
+// 設定某類下所有已產生實體的KeyValue
 ::LinGe.SetKeyValueByClassname <- function (className, key, value)
 {
 	local entity = null;
@@ -122,7 +122,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 		func = @(entity, key, value) entity.__KeyValueFromVector(key, value);
 		break;
 	default:
-		throw "参数类型非法";
+		throw "參數型別非法";
 	}
 
 	local count = 0;
@@ -142,7 +142,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return uniqueID;
 }
 
-// 获取 targetname，并确保它在本脚本系统中独一无二
+// 獲取 targetname，並確保它在本指令碼系統中獨一無二
 ::LinGe.GetEntityTargetname <- function (entity)
 {
 	local targetname = entity.GetName();
@@ -154,7 +154,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return targetname;
 }
 
-// 通过userid获得玩家实体索引
+// 通過userid獲得玩家實體索引
 ::LinGe.GetEntityIndexFromUserID <- function (userid)
 {
 	local entity = GetPlayerFromUserID(userid);
@@ -164,7 +164,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 		return entity.GetEntityIndex();
 }
 
-// 通过userid获得steamid
+// 通過userid獲得steamid
 ::LinGe.GetSteamIDFromUserID <- function (userid)
 {
 	local entity = GetPlayerFromUserID(userid);
@@ -174,7 +174,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 		return entity.GetNetworkIDString();
 }
 
-// 该userid是否为BOT所有
+// 該userid是否為BOT所有
 ::LinGe.IsBotUserID <- function (userid)
 {
 	local entity = GetPlayerFromUserID(userid);
@@ -189,14 +189,14 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return NetProps.GetPropInt(player, "m_currentReviveCount");
 }
 
-// 从网络属性判断一个实体是否存活
+// 從網路屬性判斷一個實體是否存活
 ::LinGe.IsAlive <- function (ent)
 {
 	return NetProps.GetPropInt(ent, "m_lifeState") == 0;
 }
 
-// 从bot生还者中获取其就位的生还者玩家实体
-// 须自己先检查是否是有效生还者bot 否则可能出错
+// 從bot生還者中獲取其就位的生還者玩家實體
+// 須自己先檢查是否是有效生還者bot 否則可能出錯
 ::LinGe.GetHumanPlayer <- function (bot)
 {
 	if (::LinGe.IsAlive(bot))
@@ -215,12 +215,12 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return null;
 }
 
-// 判断玩家是否处于闲置 参数可以是玩家实体也可以是实体索引
+// 判斷玩家是否處於閑置 參數可以是玩家實體也可以是實體索引
 ::LinGe.IsPlayerIdle <- function (player)
 {
 	local entityIndex = 0;
 	local _player = null;
-	// 通过类名查找玩家
+	// 通過類名查詢玩家
 	if ("integer" == typeof player)
 	{
 		entityIndex = player;
@@ -232,7 +232,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 		_player = player;
 	}
 	else
-		throw "参数类型非法";
+		throw "參數型別非法";
 	if (!_player.IsValid())
 		return false;
 	if (1 != ::LinGe.GetPlayerTeam(_player))
@@ -241,10 +241,10 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	local bot = null;
 	while ( bot = Entities.FindByClassname(bot, "player") )
 	{
-		// 判断搜索到的实体有效性
+		// 判斷搜索到的實體有效性
 		if ( bot.IsValid() )
 		{
-			// 判断阵营
+			// 判斷陣營
 			if ( bot.IsSurvivor()
 			&& "BOT" == bot.GetNetworkIDString()
 			&& ::LinGe.IsAlive(bot) )
@@ -261,7 +261,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return false;
 }
 
-// 获取所有处于闲置的玩家
+// 獲取所有處於閑置的玩家
 ::LinGe.GetIdlePlayers <- function ()
 {
 	local bot = null;
@@ -318,7 +318,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return NetProps.GetPropInt(player, "m_iTeamNum");
 }
 
-// 将 Vector 转换为 QAngle
+// 將 Vector 轉換為 QAngle
 // hl2sdk-l4d2/mathlib/mathlib_base.cpp > line:506
 ::LinGe.QAngleFromVector <- function (forward)
 {
@@ -346,7 +346,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return QAngle(pitch, yaw, 0.0);
 }
 
-// 玩家是否看着实体的位置或指定位置
+// 玩家是否看著實體的位置或指定位置
 // VSLib/player.nut > line:1381 function VSLib::Player::CanSeeLocation
 ::LinGe.IsPlayerSeeHere <- function (player, location, tolerance = 50)
 {
@@ -356,7 +356,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	else if (typeof location == "Vector")
 		_location = location;
 	else
-		throw "location 参数类型非法";
+		throw "location 參數型別非法";
 
 	local clientPos = player.EyePosition();
 	local clientToTargetVec = _location - clientPos;
@@ -375,21 +375,21 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 
 ::LinGe.TraceToLocation <- function (origin, location, mask=MASK_SHOT_HULL & (~CONTENTS_WINDOW), ignore=null)
 {
-	// 获取出发点
+	// 獲取出發點
 	local start = null;
 	if (typeof origin == "instance")
 	{
 		if ("EyePosition" in origin)
-			start = origin.EyePosition(); // 如果对象是有眼睛的则获取眼睛位置
+			start = origin.EyePosition(); // 如果對象是有眼睛的則獲取眼睛位置
 		else
 			start = origin.GetOrigin();
 	}
 	else if (typeof origin == "Vector")
 		start = origin;
 	else
-		throw "origin 参数类型非法";
+		throw "origin 參數型別非法";
 
-	// 获取终点
+	// 獲取終點
 	local end = null;
 	if (typeof location == "instance")
 	{
@@ -401,7 +401,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	else if (typeof location == "Vector")
 		end = location;
 	else
-		throw "location 参数类型非法";
+		throw "location 參數型別非法";
 
 	local tr = {
 		start = start,
@@ -413,7 +413,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return tr;
 }
 
-// player 是否注意着 entity
+// player 是否注意著 entity
 ::LinGe.IsPlayerNoticeEntity <- function (player, entity, tolerance = 50, mask=MASK_SHOT_HULL & (~CONTENTS_WINDOW), radius=0.0)
 {
 	if (!IsPlayerSeeHere(player, entity, tolerance))
@@ -423,7 +423,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 		return true;
 	if (radius <= 0.0)
 		return false;
-	// 如果不能看到指定实体，但指定了半径范围，则进行搜索
+	// 如果不能看到指定實體，但指定了半徑範圍，則進行搜索
 	local _entity = null, className = entity.GetClassname();
 	while ( _entity = Entities.FindByClassnameWithin(_entity, className, tr.pos, radius) )
 	{
@@ -433,9 +433,9 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return false;
 }
 
-// 链式射线追踪，当命中到类型为 ignoreClass 中的实体时，从其位置往前继续射线追踪
-// ignoreClass 中可以有 entity 的类型，判断时总会先判断定位到的是否是 entity
-// 如果最终能命中 entity，则返回 true
+// 鏈式射線追蹤，當命中到型別為 ignoreClass 中的實體時，從其位置往前繼續射線追蹤
+// ignoreClass 中可以有 entity 的型別，判斷時總會先判斷定位到的是否是 entity
+// 如果最終能命中 entity，則返回 true
 ::LinGe.ChainTraceToEntity <- function (origin, entity, mask, ignoreClass, limit=4)
 {
 	local tr = {
@@ -445,7 +445,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 		mask = mask,
 	};
 
-	// 获取起始点
+	// 獲取起始點
 	if (typeof origin == "instance")
 	{
 		if ("EyePosition" in origin)
@@ -457,15 +457,15 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	else if (typeof origin == "Vector")
 		tr.start = origin;
 	else
-		throw "origin 参数类型非法";
+		throw "origin 參數型別非法";
 
 	if ("EyePosition" in entity)
 		tr.end = entity.EyePosition();
 	else
 		tr.end = entity.GetOrigin();
 	if (limit < 1)
-		limit = 4; // 不允许无限制的链式探测
-	local start = tr.start; // 保留最初的起点
+		limit = 4; // 不允許無限制的鏈式探測
+	local start = tr.start; // 保留最初的起點
 
 	local count = 0;
 	while (true)
@@ -478,7 +478,7 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 			return true;
 		if (count >= limit)
 			break;
-		// 如果命中位置已经比目标位置要更远离起始点，则终止
+		// 如果命中位置已經比目標位置要更遠離起始點，則終止
 		if ((tr.pos-start).Length() > (tr.end-start).Length())
 			break;
 		if (ignoreClass.find(tr.enthit.GetClassname()) == null)
@@ -489,21 +489,21 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return false;
 }
 
-// 获取玩家实体数组
-// team 指定要获取的队伍 可以是数组或数字 若为null则忽略队伍
-// humanOrBot 机器人 0:忽略是否是机器人 1:只获取玩家 2:只获取BOT
-// aliveOrDead 存活 0:忽略是否存货 1:只获取存活的 2:只获取死亡的
+// 獲取玩家實體陣列
+// team 指定要獲取的隊伍 可以是陣列或數字 若為null則忽略隊伍
+// humanOrBot 機器人 0:忽略是否是機器人 1:只獲取玩家 2:只獲取BOT
+// aliveOrDead 存活 0:忽略是否存貨 1:只獲取存活的 2:只獲取死亡的
 ::LinGe.GetPlayers <- function (team=null, humanOrBot=0, aliveOrDead=0)
 {
 	local arr = [];
-	// 通过类名查找玩家
+	// 通過類名查詢玩家
 	local player = null;
 	while ( player = Entities.FindByClassname(player, "player") )
 	{
-		// 判断搜索到的实体有效性
+		// 判斷搜索到的實體有效性
 		if ( player.IsValid() )
 		{
-			// 判断阵营
+			// 判斷陣營
 			if (typeof team == "array")
 			{
 				if (team.find(::LinGe.GetPlayerTeam(player))==null)
@@ -533,14 +533,14 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 ::LinGe.GetPlayerCount <- function (team=null, humanOrBot=0, aliveOrDead=0)
 {
 	local count = 0;
-	// 通过类名查找玩家
+	// 通過類名查詢玩家
 	local player = null;
 	while ( player = Entities.FindByClassname(player, "player") )
 	{
-		// 判断搜索到的实体有效性
+		// 判斷搜索到的實體有效性
 		if ( player.IsValid() )
 		{
-			// 判断阵营
+			// 判斷陣營
 			if (typeof team == "array")
 			{
 				if (team.find(::LinGe.GetPlayerTeam(player))==null)
@@ -568,9 +568,9 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 	return count;
 }
 
-// 如果source中某个key在dest中也存在，则将其赋值给dest中的key
-// 如果 reserveKey 为 true，则dest中没用该key也会被赋值
-// key无视大小写
+// 如果source中某個key在dest中也存在，則將其賦值給dest中的key
+// 如果 reserveKey 為 true，則dest中沒用該key也會被賦值
+// key無視大小寫
 ::LinGe.Merge <- function (dest, source, typeMatch=true, reserveKey=false)
 {
 	if ("table" == typeof dest && "table" == typeof source)
@@ -580,8 +580,8 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 			local keyIsExist = true;
 			if (!dest.rawin(key))
 			{
-				// 为什么有些保存到 Cache 会产生大小写转换？？
-				// HUD.Config.hurt 保存到 Cache 恢复后，hurt 居然变成了 Hurt
+				// 為什麼有些儲存到 Cache 會產生大小寫轉換？？
+				// HUD.Config.hurt 儲存到 Cache 恢復后，hurt 居然變成了 Hurt
 				foreach (_key, _val in dest)
 				{
 					if (_key.tolower() == key.tolower())
@@ -602,16 +602,16 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 			}
 			local type_dest = typeof dest[key];
 			local type_src = typeof val;
-			// 如果指定key也是table，则进行递归
+			// 如果指定key也是table，則進行遞迴
 			if ("table" == type_dest && "table" == type_src)
 				::LinGe.Merge(dest[key], val, typeMatch, reserveKey);
 			else if (type_dest != type_src)
 			{
 				if (!typeMatch)
 					dest[key] = val;
-				else if (type_dest == "bool" && type_src == "integer") // 争对某些情况下 bool 被转换成了 integer
+				else if (type_dest == "bool" && type_src == "integer") // 爭對某些情況下 bool 被轉換成了 integer
 					dest[key] = (val!=0);
-				else if (type_dest == "array" && type_src == "table") // 争对某些情况下 array 被转换成了 table 原数组的顺序可能会错乱
+				else if (type_dest == "array" && type_src == "table") // 爭對某些情況下 array 被轉換成了 table 原陣列的順序可能會錯亂
 				{
 					dest[key].clear();
 					foreach (_val in val)
@@ -623,10 +623,10 @@ printl("[LinGe] 当前服务器端口 " + ::LinGe.hostport);
 		}
 	}
 }
-// ---------------------------全局函数END-------------------------------------------
+// ---------------------------全域性函式END-------------------------------------------
 
-// -------------------------------VSLib 改写-------------------------------------------------
-// 判断玩家是否为BOT时通过steamid进行判断
+// -------------------------------VSLib 改寫-------------------------------------------------
+// 判斷玩家是否為BOT時通過steamid進行判斷
 function VSLib::Entity::IsBot()
 {
 	if (!IsEntityValid())
@@ -640,7 +640,7 @@ function VSLib::Entity::IsBot()
 		return IsPlayerABot(_ent);
 }
 
-// 改良原函数，使其输出的文件带有缩进
+// 改良原函式，使其輸出的檔案帶有縮排
 function VSLib::FileIO::SerializeTable(object, predicateStart = "{\n", predicateEnd = "}\n", indice = true, indent=1)
 {
 	local indstr = "";
@@ -702,7 +702,7 @@ function VSLib::FileIO::SerializeTable(object, predicateStart = "{\n", predicate
 		}
 	}
 
-	// 末尾括号的缩进与上一级同级
+	// 末尾括號的縮排與上一級同級
 	indstr = "";
 	for (local i=0; i<indent-1; i++)
 		indstr += "\t";
@@ -725,21 +725,21 @@ class ::LinGe.ConfigManager
 		filePath = _filePath;
 		table = {};
 	}
-	// 添加表到配置管理 若表名重复则会覆盖
+	// 新增表到配置管理 若表名重複則會覆蓋
 	function Add(tableName, _table, reserveKey=false)
 	{
 		table.rawset(tableName, _table.weakref());
 		Load(tableName, reserveKey);
 	}
 
-	// 从配置管理中删除表
+	// 從配置管理中刪除表
 	function Delete(tableName)
 	{
 		table.rawdelete(tableName);
 	}
-	// 载入指定表的配置
-	// reserveKey为false时，配置载入只会载入已创建的key，配置文件中有但脚本代码未创建的key不会被载入
-	// 反之则配置文件中的key会被保留
+	// 載入指定表的配置
+	// reserveKey為false時，配置載入只會載入已建立的key，配置檔案中有但指令碼程式碼未建立的key不會被載入
+	// 反之則配置檔案中的key會被保留
 	function Load(tableName, reserveKey=false)
 	{
 		if (!table.rawin(tableName))
@@ -748,16 +748,16 @@ class ::LinGe.ConfigManager
 		try {
 			fromFile = ::VSLib.FileIO.LoadTable(filePath);
 		} catch (e)	{
-			printl("[LinGe] 服务器配置文件损坏，将自动还原为默认设置");
+			printl("[LinGe] 伺服器配置檔案損壞，將自動還原為預設設定");
 			fromFile = null;
 		}
 		if (null != fromFile && fromFile.rawin(tableName))
 		{
 			::LinGe.Merge(table[tableName], fromFile[tableName], true, reserveKey);
 		}
-		Save(tableName); // 保持文件配置和已载入配置的一致性
+		Save(tableName); // 保持檔案配置和已載入配置的一致性
 	}
-	// 保存指定表的配置
+	// 儲存指定表的配置
 	function Save(tableName)
 	{
 		if (table.rawin(tableName))
@@ -777,7 +777,7 @@ class ::LinGe.ConfigManager
 			throw "未找到表";
 	}
 
-	// 载入所有表
+	// 載入所有表
 	function LoadAll(reserveKey=false)
 	{
 		local fromFile = ::VSLib.FileIO.LoadTable(filePath);
@@ -785,7 +785,7 @@ class ::LinGe.ConfigManager
 			::LinGe.Merge(table, fromFile, true, reserveKey);
 		SaveAll();
 	}
-	// 保存所有表
+	// 儲存所有表
 	function SaveAll()
 	{
 		local fromFile = ::VSLib.FileIO.LoadTable(filePath);
@@ -799,11 +799,11 @@ local FILE_CONFIG = "LinGe/Config_" + ::LinGe.hostport;
 ::LinGe.Config <- ::LinGe.ConfigManager(FILE_CONFIG);
 // ---------------------------CONFIG-配置管理END-----------------------------------------
 
-// -----------------------事件回调函数注册START--------------------------------------
-//	集合管理事件函数，可以让多个脚本中同事件的函数调用顺序变得可控
+// -----------------------事件回撥函式註冊START--------------------------------------
+//	集合管理事件函式，可以讓多個指令碼中同事件的函式呼叫順序變得可控
 
 ::LinGe.Events <- {};
-::LinGe.Events.trigger <- {}; // 触发表
+::LinGe.Events.trigger <- {}; // 觸發表
 ::ACTION_CONTINUE <- 0;
 ::ACTION_RESETPARAMS <- 1;
 ::ACTION_STOP <- 2;
@@ -828,7 +828,7 @@ local FILE_CONFIG = "LinGe/Config_" + ::LinGe.hostport;
 				action = val.func(_params);
 			switch (action)
 			{
-			case null: // 若没有使用return返回数值 则为null
+			case null: // 若沒有使用return返回數值 則為null
 				break;
 			case ACTION_CONTINUE:
 				break;
@@ -838,33 +838,33 @@ local FILE_CONFIG = "LinGe/Config_" + ::LinGe.hostport;
 			case ACTION_STOP:
 				return;
 			default:
-				throw "事件函数返回了非法的ACTION";
+				throw "事件函式返回了非法的ACTION";
 			}
 		}
 	}
 }
-// 绑定函数到事件 允许同一事件重复绑定同一函数
-// event 为事件名 若以 OnGameEvent_ 开头则视为游戏事件
-// callOf为函数执行时所在表，为null则不指定表
-// last为真即插入到回调函数列表的最后，为否则插入到最前，越靠前的函数调用得越早
-// 成功绑定则返回该事件当前绑定的函数数量
-// func若为null则表明本次EventHook只是注册一下事件
+// 繫結函式到事件 允許同一事件重複繫結同一函式
+// event 為事件名 若以 OnGameEvent_ 開頭則視為遊戲事件
+// callOf為函式執行時所在表，為null則不指定表
+// last為真即插入到回撥函式列表的最後，為否則插入到最前，越靠前的函式呼叫得越早
+// 成功繫結則返回該事件目前繫結的函式數量
+// func若為null則表明本次EventHook只是註冊一下事件
 ::LinGe.Events.EventHook <- function (event, func=null, callOf=null, last=true)
 {
-	// 若该事件未注册则进行注册
+	// 若該事件未註冊則進行註冊
 	if (event == "callback")
-		throw "事件名不能为 callback";
+		throw "事件名不能為 callback";
 
 	if (!trigger.rawin(event))
 	{
 		trigger.rawset(event, { callback=[] });
 		trigger[event][event] <- TriggerFunc.bindenv(trigger[event]);
-		// trigger触发表中每个元素的key=事件名（用于查找），而每个元素的值都是一个table
-		// 这个table中有一个事件函数，以事件名命名（用于注册与调用），以及一个key为callback的回调函数数组
-		// 事件函数的所完成的就是依次调用同table下callback中所有函数
-		// 没有把所有事件函数放在同一table下是为了让每个事件函数能快速找到自己的callback
+		// trigger觸發表中每個元素的key=事件名（用於查詢），而每個元素的值都是一個table
+		// 這個table中有一個事件函式，以事件名命名（用於註冊與呼叫），以及一個key為callback的回撥函式陣列
+		// 事件函式的所完成的就是依次呼叫同table下callback中所有函式
+		// 沒有把所有事件函式放在同一table下是爲了讓每個事件函式能快速找到自己的callback
 
-		// 自动注册OnGameEvent_开头的游戏事件
+		// 自動註冊OnGameEvent_開頭的遊戲事件
 		if (event.find("OnGameEvent_") == 0)
 			__CollectEventCallbacks(trigger[event], "OnGameEvent_", "GameEventCallbacks", RegisterScriptGameEventListener);
 	}
@@ -880,8 +880,8 @@ local FILE_CONFIG = "LinGe/Config_" + ::LinGe.hostport;
 	}
 	return callback.len();
 }.bindenv(::LinGe.Events);
-// 根据给定函数进行解绑 默认为逆向解绑，即解绑匹配项中最靠后的
-// 事件未注册返回-1 未找到函数返回-2 成功解绑则返回其索引值
+// 根據給定函式進行解綁 預設為逆向解綁，即解綁匹配項中最靠後的
+// 事件未註冊返回-1 未找到函式返回-2 成功解綁則返回其索引值
 ::LinGe.Events.EventUnHook <- function (event, func, callOf=null, reverse=true)
 {
 	local idx = EventIndex(event, func, callOf, reverse);
@@ -890,8 +890,8 @@ local FILE_CONFIG = "LinGe/Config_" + ::LinGe.hostport;
 	return idx;
 }.bindenv(::LinGe.Events);
 
-// 查找函数在指定事件的函数表的索引
-// 事件未注册返回-1 未找到函数返回-2
+// 查詢函式在指定事件的函式表的索引
+// 事件未註冊返回-1 未找到函式返回-2
 ::LinGe.Events.EventIndex <- function (event, func, callOf=null, reverse=true)
 {
 	if (trigger.rawin(event))
@@ -943,25 +943,25 @@ local FILE_CONFIG = "LinGe/Config_" + ::LinGe.hostport;
 ::LinEventIndex <- ::LinGe.Events.EventIndex.weakref();
 ::LinEventTrigger <- ::LinGe.Events.EventTrigger.weakref();
 
-// 只有具有FCVAR_NOTIFY flags的变量才会触发该事件
+// 只有具有FCVAR_NOTIFY flags的變數才會觸發該事件
 //::LinGe.Events.OnGameEvent_server_cvar <- function (params)
 //{
 //	EventTrigger("cvar_" + params.cvarname, params);
 //}
 //::LinEventHook("OnGameEvent_server_cvar", ::LinGe.Events.OnGameEvent_server_cvar, ::LinGe.Events);
-// --------------------------事件回调函数注册END----------------------------------------
+// --------------------------事件回撥函式註冊END----------------------------------------
 
 // ------------------------------Admin---START--------------------------------------
 ::LinGe.Admin <- {};
 ::LinGe.Admin.Config <- {
 	enabled = false,
-	takeOverAdminSystem = false, // 是否接管adminsystem的权限判断
+	takeOverAdminSystem = false, // 是否接管adminsystem的許可權判斷
 	adminsFile = "linge/admins_simple.ini"
 };
 ::LinGe.Config.Add("Admin", ::LinGe.Admin.Config);
 
 ::LinGe.Admin.cmdTable <- {}; // 指令表
-// 读取管理员列表，若文件不存在则创建
+// 讀取管理員列表，若檔案不存在則建立
 ::LinGe.Admin.adminslist <- FileToString(::LinGe.Admin.Config.adminsFile);
 if (null == ::LinGe.Admin.adminslist)
 {
@@ -969,14 +969,14 @@ if (null == ::LinGe.Admin.adminslist)
 	StringToFile(::LinGe.Admin.Config.adminsFile, ::LinGe.Admin.adminslist);
 	::LinGe.Admin.adminslist = FileToString(::LinGe.Admin.Config.adminsFile);
 	if (null == ::LinGe.Admin.adminslist)
-		printl("[LinGe] " + adminsFile + " 文件读取失败，无法获取管理员列表");
+		printl("[LinGe] " + adminsFile + " 檔案讀取失敗，無法獲取管理員列表");
 }
 
-/*	添加指令 若同名指令会覆盖旧指令
+/*	新增指令 若同名指令會覆蓋舊指令
 	string	指令名
-	func	指令回调函数
-	callOf	回调函数执行所在的表
-	isAdminCmd 是否是管理员指令
+	func	指令回撥函式
+	callOf	回撥函式執行所在的表
+	isAdminCmd 是否是管理員指令
 */
 ::LinGe.Admin.CmdAdd <- function (command, func, callOf=null, remarks="", isAdminCmd=true, ignoreCase=true)
 {
@@ -985,7 +985,7 @@ if (null == ::LinGe.Admin.adminslist)
 	cmdTable.rawset(command.tolower(), table);
 }.bindenv(::LinGe.Admin);
 
-// 删除指令 成功删除返回其值 否则返回null
+// 刪除指令 成功刪除返回其值 否則返回null
 ::LinGe.Admin.CmdDelete <- function (command)
 {
 	return cmdTable.rawdelete(command.tolower());
@@ -993,7 +993,7 @@ if (null == ::LinGe.Admin.adminslist)
 ::LinCmdAdd <- ::LinGe.Admin.CmdAdd.weakref();
 ::LinCmdDelete <- ::LinGe.Admin.CmdDelete.weakref();
 
-// 消息指令触发 通过 player_say
+// 訊息指令觸發 通過 player_say
 ::LinGe.Admin.OnGameEvent_player_say <- function (params)
 {
 	local args = split(params.text, " ");
@@ -1003,8 +1003,8 @@ if (null == ::LinGe.Admin.adminslist)
 	local player = GetPlayerFromUserID(params.userid);
 	if (null == player || !player.IsValid())
 		return;
-	local firstChar = cmd.slice(0, 1); // 取第一个字符
-	// 判断前缀有效性
+	local firstChar = cmd.slice(0, 1); // 取第一個字元
+	// 判斷字首有效性
 	if (firstChar != "!"
 	&& firstChar != "/"
 	&& firstChar != "." )
@@ -1012,7 +1012,7 @@ if (null == ::LinGe.Admin.adminslist)
 
 	local text = params.text.slice(1);
 	args = split(text, " ");
-	cmd = args[0].tolower(); // 设置 args 第一个元素为指令名
+	cmd = args[0].tolower(); // 設定 args 第一個元素為指令名
 	if (cmdTable.rawin(cmd))
 	{
 		if (cmdTable[cmd].ignoreCase)
@@ -1023,7 +1023,7 @@ if (null == ::LinGe.Admin.adminslist)
 }
 ::LinEventHook("OnGameEvent_player_say", ::LinGe.Admin.OnGameEvent_player_say, ::LinGe.Admin);
 
-// scripted_user_func 指令触发
+// scripted_user_func 指令觸發
 ::LinGe.Admin.OnUserCommand <- function (vplayer, args, text)
 {
 	local _args = split(text, ",");
@@ -1039,13 +1039,13 @@ if (null == ::LinGe.Admin.adminslist)
 }
 ::EasyLogic.OnUserCommand.LinGeCommands <- ::LinGe.Admin.OnUserCommand.weakref();
 
-// 指令调用执行
+// 指令呼叫執行
 ::LinGe.Admin.CmdExec <- function (command, player, args)
 {
 	local cmd = cmdTable[command];
 	if (cmd.isAdminCmd && !IsAdmin(player))
-	{	// 如果是管理员指令而用户身份不是管理员，则发送权限不足提示
-		ClientPrint(player, 3, "\x04此条指令仅管理员可用！");
+	{	// 如果是管理員指令而使用者身份不是管理員，則發送許可權不足提示
+		ClientPrint(player, 3, "\x04此條指令僅管理員可用！");
 		return;
 	}
 
@@ -1055,16 +1055,16 @@ if (null == ::LinGe.Admin.adminslist)
 		cmd.func(player, args);
 }
 
-// 判断该玩家是否是管理员
+// 判斷該玩家是否是管理員
 ::LinGe.Admin.IsAdmin <- function (player)
 {
-	// 未启用权限管理则所有人视作管理员
+	// 未啟用許可權管理則所有人視作管理員
 	if (!Config.enabled)
 		return true;
-	// 如果是单人游戏则直接返回true
+	// 如果是單人遊戲則直接返回true
 	if (Director.IsSinglePlayerGame())
 		return true;
-	// 获取steam id
+	// 獲取steam id
 	local steamID = null;
 	local vplayer = player;
 	if (typeof vplayer != "VSLIB_PLAYER")
@@ -1075,7 +1075,7 @@ if (null == ::LinGe.Admin.adminslist)
 	if (null == steamID)
 		return false;
 
-	// 通过steamID判断是否是管理员
+	// 通過steamID判斷是否是管理員
 	if (null != adminslist)
 	{
 		if (null == adminslist.find(steamID))
@@ -1087,7 +1087,7 @@ if (null == ::LinGe.Admin.adminslist)
 		return false;
 }.bindenv(::LinGe.Admin);
 
-// 事件：回合开始 如果启用了AdminSystem则覆盖其管理员判断指令
+// 事件：回合開始 如果啟用了AdminSystem則覆蓋其管理員判斷指令
 ::LinGe.Admin.OnGameEvent_round_start <- function (params)
 {
 	if ("AdminSystem" in getroottable() && Config.takeOverAdminSystem)
@@ -1117,8 +1117,8 @@ if (null == ::LinGe.Admin.adminslist)
 	if (args.len() == 1)
 	{
 		::LinGe.Config.SaveAll();
-		ClientPrint(player, 3, "\x04已保存当前功能设定为默认设定\n");
-		ClientPrint(player, 3, "\x04配置文件: \x05 left4dead2/ems/" + FILE_CONFIG + ".tbl");
+		ClientPrint(player, 3, "\x04已儲存目前功能設定為預設設定\n");
+		ClientPrint(player, 3, "\x04配置檔案: \x05 left4dead2/ems/" + FILE_CONFIG + ".tbl");
 	}
 	else if (args.len() == 2)
 	{
@@ -1127,8 +1127,8 @@ if (null == ::LinGe.Admin.adminslist)
 			if (name.tolower() == args[1])
 			{
 				::LinGe.Config.Save(name);
-				ClientPrint(player, 3, "\x04已保存当前功能设定为默认设定: \x05" + name);
-				ClientPrint(player, 3, "\x04配置文件: \x05 left4dead2/ems/" + FILE_CONFIG + ".tbl");
+				ClientPrint(player, 3, "\x04已儲存目前功能設定為預設設定: \x05" + name);
+				ClientPrint(player, 3, "\x04配置檔案: \x05 left4dead2/ems/" + FILE_CONFIG + ".tbl");
 				return;
 			}
 		}
@@ -1136,7 +1136,7 @@ if (null == ::LinGe.Admin.adminslist)
 	}
 }
 ::LinCmdAdd("saveconfig", ::LinGe.Admin.Cmd_saveconfig, ::LinGe.Admin);
-::LinCmdAdd("save", ::LinGe.Admin.Cmd_saveconfig, ::LinGe.Admin, "保存配置到配置文件");
+::LinCmdAdd("save", ::LinGe.Admin.Cmd_saveconfig, ::LinGe.Admin, "儲存配置到配置檔案");
 
 ::LinGe.Admin.Cmd_lshelp <- function (player, args)
 {
@@ -1156,7 +1156,7 @@ if (null == ::LinGe.Admin.adminslist)
 		try {
 			ClientPrint(player, 3, "\x04" + args[1] + " = \x05" + func());
 		} catch (e) {
-			ClientPrint(player, 3, "\x04读取配置失败： \x05" + args[1]);
+			ClientPrint(player, 3, "\x04讀取配置失敗： \x05" + args[1]);
 		}
 	}
 	else if (args.len() >= 3)
@@ -1183,24 +1183,24 @@ if (null == ::LinGe.Admin.adminslist)
 				break;
 			}
 			default:
-				ClientPrint(player, 3, "\x04不支持设置该类数据： \x05" + type);
+				ClientPrint(player, 3, "\x04不支援設定該類數據： \x05" + type);
 				return;
 			}
 		} catch (e) {
-			ClientPrint(player, 3, "\x04设置配置失败： \x05" + args[1]);
+			ClientPrint(player, 3, "\x04設定配置失敗： \x05" + args[1]);
 			return;
 		}
 		ClientPrint(player, 3, "\x04配置修改成功");
 	}
 	else
 	{
-		ClientPrint(player, 3, "\x05!config [配置项目] [修改值]");
-		ClientPrint(player, 3, "\x05例：!config HUD.textHeight2 0.03 不过针对不同的配置项目，修改后可能不能立即产生效果");
+		ClientPrint(player, 3, "\x05!config [配置專案] [修改值]");
+		ClientPrint(player, 3, "\x05例：!config HUD.textHeight2 0.03 不過針對不同的配置專案，修改後可能不能立即產生效果");
 	}
 }
 ::LinCmdAdd("config", ::LinGe.Admin.Cmd_config, ::LinGe.Admin, "", true, false);
 
-// 开启Debug模式
+// 開啟Debug模式
 ::LinGe.Admin.Cmd_lsdebug <- function (player, args)
 {
 	if (args.len() == 2)
@@ -1223,16 +1223,16 @@ if (null == ::LinGe.Admin.adminslist)
 //----------------------------Admin-----END---------------------------------
 
 //------------------------------LinGe.Cache---------------------------------------
-::LinGe.Cache <- { isValidCache=false }; // isValidCache指定是否是有效Cache 数据无效时不恢复
+::LinGe.Cache <- { isValidCache=false }; // isValidCache指定是否是有效Cache 數據無效時不恢復
 
 ::LinGe.OnGameEvent_round_start_post_nav <- function (params)
 {
 	CacheRestore();
-	// 以下事件应插入到最后
+	// 以下事件應插入到最後
 	::LinEventHook("OnGameEvent_round_end", ::LinGe.OnGameEvent_round_end, ::LinGe);
 	::LinEventHook("OnGameEvent_map_transition", ::LinGe.OnGameEvent_round_end, ::LinGe);
 }
-// 如果后续插入了排序在本事件之前的回调，那么该回调中不应访问cache
+// 如果後續插入了排序在本事件之前的回撥，那麼該回調中不應訪問cache
 ::LinEventHook("OnGameEvent_round_start_post_nav", ::LinGe.OnGameEvent_round_start_post_nav, ::LinGe, false);
 
 ::LinGe.OnGameEvent_round_end <- function (params)
@@ -1250,7 +1250,7 @@ if (null == ::LinGe.Admin.adminslist)
 		if (temp.isValidCache)
 		{
 			::LinGe.Merge(Cache, temp, true, true);
-			Cache.rawset("isValidCache", false); // 开局时保存一个Cache 并且设置为无效
+			Cache.rawset("isValidCache", false); // 開局時儲存一個Cache 並且設定為無效
 			SaveTable("LinGe_Cache", Cache);
 			_params.isValidCache = true;
 		}
@@ -1276,19 +1276,19 @@ if (null == ::LinGe.Admin.adminslist)
 ::LinGe.Config.Add("Base", ::LinGe.Base.Config);
 ::LinGe.Cache.Base_Config <- ::LinGe.Base.Config;
 
-// 已知玩家列表 存储加入过服务器玩家的SteamID与名字
+// 已知玩家列表 儲存加入過伺服器玩家的SteamID與名字
 const FILE_KNOWNPLAYERS = "LinGe/playerslist";
 ::LinGe.Base.known <- { };
 ::LinGe.Base.knownManager <- ::LinGe.ConfigManager(FILE_KNOWNPLAYERS);
 ::LinGe.Base.knownManager.Add("playerslist", ::LinGe.Base.known, true);
 
-// 玩家信息
+// 玩家資訊
 ::LinGe.Base.info <- {
-	maxplayers = 0, // 最大玩家数量
-	survivor = 0, // 生还者玩家数量
-	special = 0, // 特感玩家数量
-	ob = 0, // 旁观者玩家数量
-	survivorIdx = [] // 生还者实体索引
+	maxplayers = 0, // 最大玩家數量
+	survivor = 0, // 生還者玩家數量
+	special = 0, // 特感玩家數量
+	ob = 0, // 旁觀者玩家數量
+	survivorIdx = [] // 生還者實體索引
 };
 ::pyinfo <- ::LinGe.Base.info.weakref();
 
@@ -1298,12 +1298,12 @@ const FILE_KNOWNPLAYERS = "LinGe/playerslist";
 }
 
 local isExistMaxplayers = true;
-// 事件：回合开始
+// 事件：回合開始
 ::LinGe.Base.OnGameEvent_round_start <- function (params)
 {
-	// 当前关卡重开的话，脚本会被重新加载，玩家数据会被清空
-	// 而重开情况下玩家的队伍不会发生改变，不会触发事件
-	// 所以需要开局时搜索玩家
+	// 目前關卡重開的話，指令碼會被重新載入，玩家數據會被清空
+	// 而重開情況下玩家的隊伍不會發生改變，不會觸發事件
+	// 所以需要開局時搜索玩家
 	InitPyinfo();
 
 	if (Convars.GetFloat("sv_maxplayers") != null)
@@ -1313,14 +1313,14 @@ local isExistMaxplayers = true;
 }
 ::LinEventHook("OnGameEvent_round_start", ::LinGe.Base.OnGameEvent_round_start, ::LinGe.Base);
 
-// 玩家连接事件 参数列表：
-// xuid			如果是BOT就为0，是玩家会是一串数字
-// address		地址，如果是BOT则为none，是本地房主则为loopback
-// networkid	steamID，如果是BOT则为 "BOT"
+// 玩家連線事件 參數列表：
+// xuid			如果是BOT就為0，是玩家會是一串數字
+// address		地址，如果是BOT則為none，是本地房主則為loopback
+// networkid	steamID，如果是BOT則為 "BOT"
 // index		不明
 // userid		userid
 // name			玩家名（Linux上是Name，Windows上是name，十分奇怪）
-// bot			是否为BOT
+// bot			是否為BOT
 // splitscreenplayer 不明
 ::LinGe.Base.OnGameEvent_player_connect <- function (params)
 {
@@ -1329,7 +1329,7 @@ local isExistMaxplayers = true;
 	if ("BOT" == params.networkid)
 		return;
 	local playerName = null;
-	if (params.rawin("Name")) // Win平台和Linux平台的name参数似乎首字母大小写有差异
+	if (params.rawin("Name")) // Win平臺和Linux平臺的name參數似乎首字母大小寫有差異
 		playerName = params.Name;
 	else if (params.rawin("name"))
 		playerName = params.name;
@@ -1337,7 +1337,7 @@ local isExistMaxplayers = true;
 		return;
 
 	if (Config.isShowTeamChange)
-		ClientPrint(null, 3, "\x03"+ playerName + "\x04 正在连接");
+		ClientPrint(null, 3, "\x03"+ playerName + "\x04 正在連線");
 
 	if (Config.recordPlayerInfo)
 	{
@@ -1351,9 +1351,9 @@ local isExistMaxplayers = true;
 }
 ::LinEventHook("OnGameEvent_player_connect", ::LinGe.Base.OnGameEvent_player_connect, ::LinGe.Base);
 
-// 玩家队伍更换事件
-// team=0：玩家刚连接、和断开连接时会被分配到此队伍 不统计此队伍的人数
-// team=1：旁观者 team=2：生还者 team=3：特感
+// 玩家隊伍更換事件
+// team=0：玩家剛連線、和斷開連線時會被分配到此隊伍 不統計此隊伍的人數
+// team=1：旁觀者 team=2：生還者 team=3：特感
 ::LinGe.Base.OnGameEvent_player_team <- function (_params)
 {
 	if (!_params.rawin("userid"))
@@ -1362,8 +1362,8 @@ local isExistMaxplayers = true;
 	local params = clone _params;
 	params.player <- GetPlayerFromUserID(params.userid);
 	params.steamid <- params.player.GetNetworkIDString();
-	// 使用插件等方式改变阵营的时候，可能导致 params.name 为空
-	// 通过GetPlayerName重新获取会比较稳定
+	// 使用外掛等方式改變陣營的時候，可能導致 params.name 為空
+	// 通過GetPlayerName重新獲取會比較穩定
 	params.name <- params.player.GetPlayerName();
 	params.entityIndex <- params.player.GetEntityIndex();
 
@@ -1373,13 +1373,13 @@ local isExistMaxplayers = true;
 	else if (2 == params.team && null == idx)
 		::pyinfo.survivorIdx.append(params.entityIndex);
 
-	// 当不是BOT时，对当前玩家人数进行更新
-	// 使用插件等方式加入bot时，params.isbot不准确 应获取其SteamID进行判断
+	// 當不是BOT時，對當前玩家人數進行更新
+	// 使用外掛等方式加入bot時，params.isbot不準確 應獲取其SteamID進行判斷
 	if ("BOT" != params.steamid)
 	{
-		// 更新玩家最大人数
+		// 更新玩家最大人數
 		UpdateMaxplayers();
-		// 更新玩家数据信息
+		// 更新玩家數據資訊
 		switch (params.oldteam)
 		{
 		case 0:
@@ -1394,7 +1394,7 @@ local isExistMaxplayers = true;
 			::pyinfo.special--;
 			break;
 		default:
-			throw "未知情况发生";
+			throw "未知情況發生";
 		}
 		switch (params.team)
 		{
@@ -1410,16 +1410,16 @@ local isExistMaxplayers = true;
 			::pyinfo.special++;
 			break;
 		default:
-			throw "未知情况发生";
+			throw "未知情況發生";
 		}
-		// 触发真实玩家变更事件
+		// 觸發真實玩家變更事件
 		::LinEventTrigger("human_team_nodelay", params);
-		::LinEventTrigger("human_team", params, 0.1); // 延时0.1s触发
+		::LinEventTrigger("human_team", params, 0.1); // 延時0.1s觸發
 	}
 }
 ::LinEventHook("OnGameEvent_player_team", ::LinGe.Base.OnGameEvent_player_team, ::LinGe.Base);
 
-// 玩家队伍变更提示
+// 玩家隊伍變更提示
 ::LinGe.Base.human_team <- function (params)
 {
 	if (!Config.isShowTeamChange)
@@ -1429,16 +1429,16 @@ local isExistMaxplayers = true;
 	switch (params.team)
 	{
 	case 0:
-		text += "已离开";
+		text += "已離開";
 		break;
 	case 1:
 		if (params.oldteam == 2 && ::LinGe.IsPlayerIdle(params.entityIndex))
-			text += "已闲置";
+			text += "已閑置";
 		else
-			text += "进入旁观";
+			text += "進入旁觀";
 		break;
 	case 2:
-		text += "加入了生还者";
+		text += "加入了生還者";
 		break;
 	case 3:
 		text += "加入了感染者";
@@ -1453,23 +1453,23 @@ local isExistMaxplayers = true;
 	if (1 == args.len())
 	{
 		Config.isShowTeamChange = !Config.isShowTeamChange;
-		local text = Config.isShowTeamChange ? "开启" : "关闭";
-		ClientPrint(player, 3, "\x04服务器已" + text + "队伍更换提示");
+		local text = Config.isShowTeamChange ? "開啟" : "關閉";
+		ClientPrint(player, 3, "\x04伺服器已" + text + "隊伍更換提示");
 	}
 }
-::LinCmdAdd("teaminfo", ::LinGe.Base.Cmd_teaminfo, ::LinGe.Base, "开启或关闭玩家队伍更换提示");
+::LinCmdAdd("teaminfo", ::LinGe.Base.Cmd_teaminfo, ::LinGe.Base, "開啟或關閉玩家隊伍更換提示");
 
 // 搜索玩家
 ::LinGe.Base.InitPyinfo <- function ()
 {
 	UpdateMaxplayers();
 
-	local player = null; // 玩家实例
+	local player = null; // 玩家實例
 	local table = ::pyinfo;
-	// 通过类名查找玩家
+	// 通過類名查詢玩家
 	while ( player = Entities.FindByClassname(player, "player") )
 	{
-		// 判断搜索到的实体有效性
+		// 判斷搜索到的實體有效性
 		if ( player.IsValid() )
 		{
 			local team = ::LinGe.GetPlayerTeam(player);
@@ -1477,7 +1477,7 @@ local isExistMaxplayers = true;
 				table.survivorIdx.append(player.GetEntityIndex());
 			if ("BOT" != player.GetNetworkIDString())
 			{
-				// 如果不是BOT，则还需对玩家人数进行修正
+				// 如果不是BOT，則還需對玩家人數進行修正
 				switch (team)
 				{
 				case 1:
